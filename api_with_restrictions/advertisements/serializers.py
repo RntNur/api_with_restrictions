@@ -48,4 +48,3 @@ class AdvertisementSerializer(serializers.ModelSerializer):
                 "Вы сделали слишком много запросов. Закройте одно из объявлений.")
         return data
 
-

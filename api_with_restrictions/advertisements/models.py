@@ -27,4 +27,3 @@ class Advertisement(models.Model):
         auto_now=True
     )
 
-
