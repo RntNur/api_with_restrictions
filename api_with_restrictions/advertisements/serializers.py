@@ -40,8 +40,12 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
         user = self.context["request"].user
-        if Advertisement.objects.filter(creator = user, status = AdvertisementStatusChoices.OPEN).count() >= 10:
-            raise serializers.ValidationError("Вы сделали слишком много запросов")
+        request_method = self.context["request"].method
+
+        if Advertisement.objects.filter(creator=user, status=AdvertisementStatusChoices.OPEN).count() >= 10 and (
+                request_method == "POST" or data.get("status") == AdvertisementStatusChoices.OPEN):
+            raise serializers.ValidationError(
+                "Вы сделали слишком много запросов. Закройте одно из объявлений.")
         return data
-        # TODO: добавьте требуемую валидацию
+
 
